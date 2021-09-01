@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:enter three digit as "number" value;
+:declare "total = 0" as sum of digits;
+:declare "product =1" as product of digits;
+:for each digit in "number";
+if (last digit reached) then (false)
+  :add digit as number to total;
+  :multiply product by digit as number;
+else (true)
+endif
+:print "total" value for user;
+:print "product" value for user;
+stop
+
+@enduml

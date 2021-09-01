@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Enter minimum and maximum
+integer number;
+:Calculate random integer number
+between entered minimum and maximum;
+:Print generated integer
+    number for user;
+:Enter minimum and
+maximum real number;
+:Calculate random real number between
+entered minimum and maximum;
+:Print generated real
+    number for user;
+:Enter letter for bottom
+and for top of interval;
+:Calculate random number of
+letter position in ASCII between
+positions  of entered letters;
+:Print generated
+letter for user;
+stop
+
+@enduml

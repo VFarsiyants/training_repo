@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Enter all values for points point1
+    (x1, y1) and point2 (x2, y2);
+:Calculate value for k
+coefficient by formula:
+k = (y1 - y2) / (x1 - x2);
+:Calculate value for b by
+formula b = y1 - k * x1;
+if (b > 0) then (true)
+    :term b will be with "+"
+    declare string for term b as
+    b_part_string = f' + {b}';
+else if (b < 0) then (true)
+    :term b will be with "-"
+    declare string for term b as
+    b_part_string = f' + {abs(b)}';;
+else (false)
+    :there won't be term b in equation
+    b_part_string is empty string;
+endif
+:Print equation as summary of strings
+"y = {k}x" and b_part_string;
+stop
+
+@enduml

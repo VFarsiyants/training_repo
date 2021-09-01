@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Enter three numbers;
+:Sorting list of numbers
+by ascending;
+:Print for user second
+number of the list;
+stop
+
+@enduml

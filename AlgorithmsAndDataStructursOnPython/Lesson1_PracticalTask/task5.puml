@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Enter two latin letters;
+:Calculate positions of
+letters in ASCII;
+:Print for user position
+of each letter;
+:Calculate and print for
+letter quantity of letters
+between entered;
+
+stop
+
+@enduml

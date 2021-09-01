@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Enter size values for all possible
+triangle a, b, c sides;
+:Calculate maximum value beside
+triangle possible sides;
+if (maximum size is less
+than sum of left sizes) then (true)
+    if (number of unique
+    sizes is 2) then (true)
+    :Print for user
+    that sides can make
+    isosceles triangle;
+    else if (number of unique
+    sizes is 1) then (true)
+    :Print for user
+    that sides can make
+    equilateral triangle;
+    else (false)
+    :Print for user
+    that sides can make
+    scalene triangle;
+    endif
+else (false)
+    :Print for user
+    that sides can't make
+    a triangle;
+endif
+stop
+
+@enduml
