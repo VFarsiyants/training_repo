@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Enter year number;
+if (Entered year can't
+be divided on 4) then (true)
+    :Print for user that
+    year is regular;
+else if (Entered year can't
+be divided on 100) then (true)
+    :Print for user that
+    year is leap year;
+else if (Entered year can be
+divided on 400) then (true)
+    :Print for user that
+    year is leap;
+else (false)
+    :Print for user that
+    year is regular;
+endif
+stop
+
+@enduml

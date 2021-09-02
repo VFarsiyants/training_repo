@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:declare value "x1 = 5";
+:declare value "x2 = 6";
+:calculate value result as bitwise
+        "AND" of x1 and x2;
+:print for user result and explanation
+of bitwise AND;
+:calculate value result as bitwise
+        "OR" of x1 and x2;
+:print for user result and
+explanation of bitwise OR;
+:calculate value result as
+two bits left shift of x1;
+:print for user result and
+explanation of bit left shift;
+:calculate value result as
+two bits right shift of x1;
+:print for user result and
+explanation of bit right shift;
+stop
+
+@enduml
