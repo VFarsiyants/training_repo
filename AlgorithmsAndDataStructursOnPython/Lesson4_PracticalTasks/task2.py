@@ -30,34 +30,31 @@ def prime_number_search(prime_number_pos):
 def prime_number_search_eratosthenes(prime_number_pos):
     prime_numbers_count = 1
     numbers = [0, 0, 2]
-    candidate = numbers[-1]
-    while prime_numbers_count < prime_number_pos:
-        candidate += 1
-        numbers += [candidate]
+    while prime_numbers_count < prime_number_pos+1:
+        bottom = numbers[-1]+1
+        top = bottom+prime_number_pos
+        numbers += list(range(bottom, top))
         m = 2
-        while m < candidate:
+        while m < top:
             if numbers[m] != 0:
                 j = m * 2
-                while j <= candidate:
+                while j < top:
                     numbers[j] = 0
                     j += m
             m += 1
-        if numbers[-1] != 0:
-            prime_numbers_count += 1
-    return numbers[-1]
+        while numbers[-1] == 0:
+            del numbers[-1]
+        prime_numbers_count = len(set(numbers))
+    numbers = [number for number in numbers if number != 0]
+    return numbers[prime_number_pos-1]
 
 
-cProfile.run('print(prime_number_search_eratosthenes(500))')
-cProfile.run('print(prime_number_search(500))')
+cProfile.run('print(prime_number_search_eratosthenes(1000))')
+cProfile.run('print(prime_number_search(1000))')
 # 500ое простое число равно 3571 согласно википедии
 
-# оба алгоритма возвращают правильное число но алгоритм эратосфена в данной ситуации в моей реализации проигрывает
-# возможно я что-то не так реализовал но простой алгоритм работает быстрее чем алгоритм эратосфена если мы ищем
-# простое число по его номеру в таблице простых чисел из за того что это решето приходится прогонять каждый раз когда
-# мы переходим к следующему числу
-
-# на моей машине prime_number_search_eratosthenes(500) занимает 1.590
-# на моей машине prime_number_search(500) занимает 0.049
-
+# на моей машине prime_number_search_eratosthenes(1000) занимает 0.011
+# на моей машине prime_number_search(1000) занимает 0.242
+# Вывод: алгоритм эратосфена эффективней
 
 
