@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+
+<body>
+  <!--
+Необязательное задание.
+
+Необходимо реализовать функцию, которая будет принимать первым аргументом
+целое положительное число, в следующих трех аргументах функция принимает слова
+в разных склонениях.
+Функция должна возвращать одно из трех переданных в параметры слов подходящее
+под число, которое передано первым аргументом.
+
+Пример:
+console.log(declinationOfNumber(1, "яблоко", "яблока", "яблок"); // "яблоко"
+console.log(declinationOfNumber(2, "мяч", "мяча", "мячей"); // "мяча"
+console.log(declinationOfNumber(5, "стул", "стула", "стульев"); // "стульев"
+
+Функция должна работать с любым словом и любым целым положительным числом.
+Все аргументы, которые будут передаваться функции будут верны.
+-->
+  <script>
+    /**
+    * Function return correct form of russian word which correspons
+    * with quantity
+    * @param {number} qty quantity of objects 
+    * @param {string} wordI  word form for object when qty is ended with 1
+    * @param {string} wordII word form for object when qty is ended with a value from list (2, 3, 4)
+    * @param {string} wordIII word form for object for all other cases
+    * @returns {string} correct word for the quantity
+    */
+    "use strict";
+    function declinationOfNumber(qty, wordI, wordII, wordIII) {
+      qty = qty % 10;
+      if (qty === 1) {
+        return wordI
+      } else if (qty > 1 && qty < 5) {
+        return wordII
+      } else
+        return wordIII
+    };
+    // function check
+    console.log(declinationOfNumber(127, 'банан', 'банана', 'бананов'));
+    console.log(declinationOfNumber(239, 'конь', 'коня', 'коней'));
+    console.log(declinationOfNumber(2, "мяч", "мяча", "мячей"));
+    console.log(declinationOfNumber(5, "стул", "стула", "стульев"));
+    console.log(declinationOfNumber(1, "яблоко", "яблока", "яблок"))
+  </script>
+</body>
+
+</html>
