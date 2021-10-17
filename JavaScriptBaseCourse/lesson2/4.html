@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+
+<body>
+  <!--
+Обязательное задание.
+
+Необходимо реализовать четыре функции, каждая функция должна принимать по два
+числа и выполнять одну из операций (каждая функция выполняет одну из них):
+1. Сложение
+2. Разность
+3. Умножение
+4. Деление
+
+Необходимо сделать так, чтобы функция вернула число, например выражение
+`console.log(sum(2, 6));` должно вывести число 8 в консоль (sum - функция
+сложения в данном примере, ваши названия функций могут отличаться).
+
+Округлять значения, которые возвращают функции не нужно, однако, обратите
+внимание на разность, функция должна вычесть из большего числа меньшее, либо
+вернуть 0, если числа равны.
+
+Функциям всегда передаются корректные числа, проверки на NaN, Infinity делать
+не нужно.
+
+Необходимо для всех функций прописать комментарии jsdoc https://jsdoc.app/.
+-->
+  <script>
+    "use strict";
+    /**
+     * Summarizes two numbers
+     * @param {number} num1 first number for sum
+     * @param {number} num2 second number for sum
+     * @returns {number} sum of two numbers
+     */
+    function sum(num1, num2) {
+      return num1 + num2
+    };
+
+    /**
+     * Calculates difference of two numbers. Difference
+     * is calculated from the biggest number
+     * @param {number} num1 first number 
+     * @param {number} num2 second number
+     * @returns {number} difference beetwen numbers
+     */
+    function diff(num1, num2) {
+      if (num1 >= num2) {
+        return num1 - num2
+      } else {
+        return num2 - num1
+      }
+    };
+
+    /**
+     * Calculates product of two numbers
+     * @param {number} num1 first number
+     * @param {number} num2 second number
+     * @returns {number} product of two numbers
+     */
+    function product(num1, num2) {
+      return num1 * num2
+    };
+
+    /**
+     * Calculate division beetwen first and second number
+     * @param {number} num1 first number which is divided
+     * @param {number} num2 second number which is divider
+     * @returns {number} result of division
+     */
+    function divide(num1, num2) {
+      return num1 / num2
+    };
+
+    // functions check
+    // const num1 = Number.parseFloat(prompt('Insert number 1: '));
+    // const num2 = Number.parseFloat(prompt('Insert number 2: '));
+    // console.log('Sum of numbers is ' + sum(num1, num2));
+    // console.log('Defference of numbers is ' + diff(num1, num2));
+    // console.log('Product of numbers is ' + product(num1, num2));
+    // console.log('Dividing of numbers is ' + divide(num1, num2));
+  </script>
+</body>
+
+</html>
