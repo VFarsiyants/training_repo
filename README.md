@@ -1,6 +1,6 @@
 This repository is created for its owner training purposes and used during 
-training courses to submit solutions for exercises prepared during course. 
-It can be used to give overview about skills of repository owner.
+training courses to submit solutions for exercises owner worked on during 
+course. It can be used to give overview about skills of repository owner.
 
 The goal is to get experience and knowledge in Python programming :snake:.
 
