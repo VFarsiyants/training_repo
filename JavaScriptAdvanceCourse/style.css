@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+    background-color:cornsilk;
+}
+
+header {
+    display: flex;
+    height: 75px;
+    background-color: aquamarine;
+    border: solid black 1px;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+header button {
+    height: 30px;
+    width: 150px;
+    margin-right: 50px;
+    align-self: center;
+    border-radius: 10px;
+}
+
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.goods-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.goods-item {
+    padding-top: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    border: solid black 1px;
+    margin: 10px;
+}
+
+.goods-item-image {
+    width: 200px;
+    height: 200px;
+    border: solid black 1px;
+}
