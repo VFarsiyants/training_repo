@@ -1,13 +1,12 @@
 * {
     padding: 0;
     margin: 0;
-    background-color:cornsilk;
 }
 
 header {
     display: flex;
     height: 75px;
-    background-color: aquamarine;
+    background-color: rgba(89, 206, 167, 0.438);
     border: solid black 1px;
     justify-content: flex-end;
     margin-bottom: 30px;
@@ -16,8 +15,6 @@ header {
 header button {
     height: 30px;
     width: 150px;
-    margin-right: 50px;
-    align-self: center;
     border-radius: 10px;
 }
 
@@ -46,4 +43,53 @@ main {
     width: 200px;
     height: 200px;
     border: solid black 1px;
+}
+
+.cart-wrapper {
+    background-color: ivory;
+    display: grid;
+    border: 2px solid black;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    margin: 5px;
+}
+
+.cart-header {
+    padding-bottom: 10px;
+    border-bottom: 3px solid black;
+    border-right: 1px solid grey;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.cart-info {
+    align-self: center;
+    position: relative;
+    margin-right: 50px;
+}
+
+.cart-data {
+    padding-left: 5px;
+    padding-top: 5px;
+    border-right: 1px gray solid;
+}
+
+.cart {
+    position: absolute;
+    width: 700px;
+    display: none;
+    flex-direction: column;
+    right: 140px;
+    top: 20px;
+    background-color: lightgreen;
+}
+
+.cart__active {
+    display: flex;
+}
+
+.cart-total {
+    padding-top: 15px;
+    padding-right: 20px;
+    align-self: flex-end;
+    padding-bottom: 10px;
 }
