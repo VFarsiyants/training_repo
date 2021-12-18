@@ -93,3 +93,13 @@ main {
     align-self: flex-end;
     padding-bottom: 10px;
 }
+
+.add-button {
+    margin: 10px;
+    padding: 0px 10px;
+}
+
+.remove-button {
+    margin-bottom: 10px;
+    padding: 0px 10px;
+}
