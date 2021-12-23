@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const API_URL = 'https://raw.githubusercontent.com/\
 GeekBrainsTutorial/online-store-api/master/responses/';
 
-function send(cb, onError, onSuccess, url, method = 'GET',
+function send(onError, onSuccess, url, method = 'GET',
     data = '', headers = {}, timeout = 60000) {
 
     let xhr;
@@ -27,7 +27,7 @@ function send(cb, onError, onSuccess, url, method = 'GET',
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status < 400) {
-                onSuccess(xhr.responseText, cb)
+                onSuccess(xhr.responseText)
             } else if (xhr.status >= 400) {
                 onError(xhr.status)
             }
@@ -105,12 +105,17 @@ class GoodStack {
 class Cart {
     constructor() {
         this.list = []
+        this.cartHTML = new CartRender(this)
+
+        document.querySelector('.cart-button').addEventListener('click', event => {
+            document.querySelector('.cart').classList.toggle('cart__active');
+        })
     }
 
-    fetchCart(user_id, cb) {
+    fetchCart(user_id) {
         const querryData = { "id_user": user_id };
         const onError = (err) => alert('Can\'t load basket')
-        const onSuccess = (response, cb) => {
+        const onSuccess = (response) => {
             const data = JSON.parse(response);
             data.contents.forEach(stack => {
                 const cartStack = new GoodStack(new Good({
@@ -121,9 +126,12 @@ class Cart {
                 cartStack.count = stack.quantity;
                 this.list.push(cartStack);
             })
-            cb();
+            this.cartHTML.renderCart();
         }
-        send(cb, onError, onSuccess, `${API_URL}getBasket.json`, undefined, querryData);
+        return new Promise((resolve, reject) =>
+            send(reject, resolve, `${API_URL}getBasket.json`, undefined, querryData))
+            .then((response) => onSuccess(response))
+            .catch((error) => onError(error))
     }
 
     add(good) {
@@ -134,14 +142,14 @@ class Cart {
         } else {
             this.list.push(new GoodStack(good))
         }
-
+        this.cartHTML.renderCart();
     }
 
-    remove(id, cb) {
+    remove(id) {
         const queryData = {
             "id_product": id,
         }
-        const onSuccess = (response, cb) => {
+        const onSuccess = (response) => {
             const idx = this.list.findIndex((stack) => stack.getGoodId() == id)
             if (idx >= 0) {
                 this.list[idx].remove()
@@ -150,10 +158,10 @@ class Cart {
                     this.list.splice(idx, 1)
                 }
             }
-            cb();
+            this.cartHTML.renderCart();
         };
         const onError = (err) => alert('Something went wrong');
-        send(cb, onError, onSuccess, `${API_URL}deleteFromBasket.json`,
+        send(onError, onSuccess, `${API_URL}deleteFromBasket.json`,
             undefined, queryData);
 
     }
@@ -163,9 +171,10 @@ class Showcase {
     constructor(cart) {
         this.list = [];
         this.cart = cart;
+        this.showcaseHTML = new ShowcaseRenderer(this)
     }
 
-    _onSuccess(response, cb) {
+    _onSuccess(response) {
         const data = JSON.parse(response);
         data.forEach(product => {
             this.list.push(
@@ -175,34 +184,49 @@ class Showcase {
                 })
             )
         })
-        cb();
+        this.showcaseHTML.renderShowcase();
+        let addButtons = document.querySelectorAll('.add-button')
+        addButtons.forEach(button => button.addEventListener('click',
+            (event) => {
+                this.addToCart(event.target.dataset.product_id);
+            }
+        ))
+
+        let removeButtons = document.querySelectorAll('.remove-button')
+        removeButtons.forEach(button => button.addEventListener('click',
+            (event) => this.cart.remove(event.target.dataset.product_id)
+        ))
     }
 
     _onError(err) {
         console.log(err);
     }
 
-    fetchGoods(cb) {
-        send(cb, this._onError, this._onSuccess.bind(this),
-            `${API_URL}catalogData.json`);
+    fetchGoods() {
+        return new Promise((resolve, reject) => send(reject, resolve,
+            `${API_URL}catalogData.json`)).then((response) => this._onSuccess(response))
+            .catch((error) => this._onError(error))
     }
 
-    addToCart(id, cb) {
+    // fetchGoods() {
+    //     send(this._onError, this._onSuccess.bind(this),
+    //         `${API_URL}catalogData.json`);
+    // }
+
+    addToCart(id) {
         const queryData = {
             "id_product": id,
             "quantity": 1
         }
-        // cb function for render purposes
-        const onSuccess = (response, cb) => {
+        const onSuccess = (response) => {
             const idx = this.list.findIndex((good) => id == good.id)
 
             if (idx >= 0) {
                 this.cart.add(this.list[idx])
-            };
-            cb()
+            }
         };
         const onError = (err) => alert('Something went wrong');
-        send(cb, onError, onSuccess, `${API_URL}addToBasket.json`, undefined,
+        send(onError, onSuccess, `${API_URL}addToBasket.json`, undefined,
             queryData);
     }
 }
@@ -276,50 +300,10 @@ class CartRender {
         } else {
             document.querySelector('.cart').innerHTML = cartHeaderHTML
         }
-
     }
 }
 
-document.querySelector('.cart-button').addEventListener('click', event => {
-    document.querySelector('.cart').classList.toggle('cart__active');
-})
-
-
 const cart = new Cart();
 const showcase = new Showcase(cart);
-
-function loadShowcase() {
-    const showcaseRenderer = new ShowcaseRenderer(showcase);
-    showcaseRenderer.renderShowcase();
-}
-
-function loadBasket() {
-    const cartRenderer = new CartRender(cart);
-    cartRenderer.renderCart();
-    let addButtons = document.querySelectorAll('.add-button')
-    addButtons.forEach(button => button.addEventListener('click',
-        (event) => {
-            // render should as callback otherwise it can occur before
-            // getting the response
-            showcase.addToCart(event.target.dataset.product_id,
-                cartRenderer.renderCart.bind(cartRenderer));
-        }
-    ))
-
-    let removeButtons = document.querySelectorAll('.remove-button')
-    removeButtons.forEach(button => button.addEventListener('click',
-        (event) => {
-            // render should as callback otherwise it can occur before
-            // getting the response
-            cart.remove(event.target.dataset.product_id,
-                cartRenderer.renderCart.bind(cartRenderer));
-        }
-    ))
-}
-
-//mainFunc is callback, is performed after response for goods getch provided.
-showcase.fetchGoods(loadShowcase);
-// as user_id used static value 123 because user functionality not implemented yet.
-cart.fetchCart(123, loadBasket.bind(cart))
-
-// for all tests added events to add/remove buttons
+showcase.fetchGoods();
+cart.fetchCart();
