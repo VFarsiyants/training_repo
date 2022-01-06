@@ -1,7 +1,8 @@
 'use strict';
 
-const API_URL = 'https://raw.githubusercontent.com/\
-GeekBrainsTutorial/online-store-api/master/responses/';
+const API_URL = "http://localhost:3000/api/v1/";
+// const API_URL = 'https://raw.githubusercontent.com/\
+// GeekBrainsTutorial/online-store-api/master/responses/';
 
 function send(onError, onSuccess, url, method = 'GET',
     data = '', headers = {}, timeout = 60000) {
@@ -14,10 +15,6 @@ function send(onError, onSuccess, url, method = 'GET',
     } else if (window.ActiveXObject) {
         // Internet Explorer
         xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-    for ([key, value] of Object.entries(headers)) {
-        xhr.setRequestHeader(key, value)
     }
 
     xhr.timeout = timeout;
@@ -35,6 +32,8 @@ function send(onError, onSuccess, url, method = 'GET',
     }
 
     xhr.open(method, url, true);
+
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
     xhr.send(data);
 }
@@ -117,7 +116,10 @@ class Cart {
         const onError = (err) => alert('Can\'t load basket')
         const onSuccess = (response) => {
             const data = JSON.parse(response);
-            data.contents.forEach(stack => {
+            if (!data.length) {
+                return;
+            }
+            data.forEach(stack => {
                 const cartStack = new GoodStack(new Good({
                     id: stack.id_product,
                     title: stack.product_name,
@@ -129,7 +131,7 @@ class Cart {
             this.cartHTML.renderCart();
         }
         return new Promise((resolve, reject) =>
-            send(reject, resolve, `${API_URL}getBasket.json`, undefined, querryData))
+            send(reject, resolve, `${API_URL}cart`, undefined, querryData))
             .then((response) => onSuccess(response))
             .catch((error) => onError(error))
     }
@@ -146,9 +148,9 @@ class Cart {
     }
 
     remove(id) {
-        const queryData = {
+        const queryData = JSON.stringify({
             "id_product": id,
-        }
+        })
         const onSuccess = (response) => {
             const idx = this.list.findIndex((stack) => stack.getGoodId() == id)
             if (idx >= 0) {
@@ -161,8 +163,8 @@ class Cart {
             this.cartHTML.renderCart();
         };
         const onError = (err) => alert('Something went wrong');
-        send(onError, onSuccess, `${API_URL}deleteFromBasket.json`,
-            undefined, queryData);
+        send(onError, onSuccess, `${API_URL}cart/remove`,
+            'POST', queryData);
 
     }
 }
@@ -204,20 +206,15 @@ class Showcase {
 
     fetchGoods() {
         return new Promise((resolve, reject) => send(reject, resolve,
-            `${API_URL}catalogData.json`)).then((response) => this._onSuccess(response))
+            `${API_URL}showcase`)).then((response) => this._onSuccess(response))
             .catch((error) => this._onError(error))
     }
 
-    // fetchGoods() {
-    //     send(this._onError, this._onSuccess.bind(this),
-    //         `${API_URL}catalogData.json`);
-    // }
-
     addToCart(id) {
-        const queryData = {
+        const queryData = JSON.stringify({
             "id_product": id,
             "quantity": 1
-        }
+        })
         const onSuccess = (response) => {
             const idx = this.list.findIndex((good) => id == good.id)
 
@@ -226,8 +223,8 @@ class Showcase {
             }
         };
         const onError = (err) => alert('Something went wrong');
-        send(onError, onSuccess, `${API_URL}addToBasket.json`, undefined,
-            queryData);
+        send(onError, onSuccess, `${API_URL}cart`, 'POST',
+            queryData, { 'Content-Type': 'application/json;charset=UTF-8' });
     }
 }
 
