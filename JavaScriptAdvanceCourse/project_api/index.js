@@ -86,7 +86,9 @@ app.post('/api/v1/cart/remove', (req, res) => {
             const cart = JSON.parse(data);
             const idx = cart.findIndex(stack => stack.id_product == goodId)
             if (idx >= 0) {
+                const goodPrice = cart[idx].price / cart[idx].quantity
                 --cart[idx].quantity;
+                cart[idx].price -= goodPrice;
                 if (cart[idx].quantity == 0) {
                     cart.splice(idx, 1);
                 }
