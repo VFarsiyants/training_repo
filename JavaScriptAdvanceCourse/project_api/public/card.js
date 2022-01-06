@@ -6,9 +6,14 @@ Vue.component('card',
             <h3>{{ good.product_name }}</h3>
             <p>{{ good.price }}$</p>
             <button class="add-button" :data-product_id="good.id_product" \
-            type="button">Add to Cart</button>
+            type="button" v-on:click="buy">Add to Cart</button>
         </div>
         `,
-        props: ['good']
+        props: ['good'],
+        methods: {
+            buy(event) {
+                this.$emit('add', event.target.dataset.product_id)
+            }
+        }
     }
 )

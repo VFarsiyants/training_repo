@@ -44,7 +44,8 @@ app.post('/api/v1/cart', (req, res) => {
     fs.readFile(catalogPath, 'utf-8', (err, data) => {
         if (!err) {
             const goods = JSON.parse(data);
-            const good_idx = goods.findIndex(item => item.id_product == goodId);
+            const good_idx = goods.findIndex(item =>
+                item.id_product == goodId);
             const good_data = {
                 id_product: goods[good_idx].id_product,
                 price: goods[good_idx].price,
@@ -54,16 +55,18 @@ app.post('/api/v1/cart', (req, res) => {
             fs.readFile(cartPath, 'utf-8', (err, data) => {
                 if (!err) {
                     const cart = JSON.parse(data);
-                    const idx = cart.findIndex(stack => stack.id_product == good_data.id_product);
+                    const idx = cart.findIndex(stack =>
+                        stack.id_product == good_data.id_product);
                     if (idx >= 0) {
                         cart[idx].quantity++;
                         cart[idx].price += good_data.price
                     } else {
                         cart.push(good_data);
                     }
-                    fs.writeFile(cartPath, JSON.stringify(cart), 'utf-8', (err, data) => {
-                        res.sendStatus(201);
-                    })
+                    fs.writeFile(cartPath, JSON.stringify(cart),
+                        'utf-8', (err, data) => {
+                            res.sendStatus(201);
+                        })
 
                 } else {
                     res.status(500).send(err);
@@ -86,13 +89,16 @@ app.post('/api/v1/cart/remove', (req, res) => {
             const cart = JSON.parse(data);
             const idx = cart.findIndex(stack => stack.id_product == goodId)
             if (idx >= 0) {
+                const goodPrice = cart[idx].price / cart[idx].quantity
                 --cart[idx].quantity;
+                cart[idx].price -= goodPrice;
                 if (cart[idx].quantity == 0) {
                     cart.splice(idx, 1);
                 }
-                fs.writeFile(cartPath, JSON.stringify(cart), 'utf-8', (err, data) => {
-                    res.sendStatus(201)
-                })
+                fs.writeFile(cartPath, JSON.stringify(cart), 'utf-8',
+                    (err, data) => {
+                        res.sendStatus(201)
+                    })
             } else {
                 res.sendStatus(201)
             }

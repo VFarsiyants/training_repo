@@ -60,6 +60,7 @@ main {
     padding-top: 5px;
     padding-left: 5px;
     width: 200px;
+    text-align: center;
 }
 
 .cart-info {

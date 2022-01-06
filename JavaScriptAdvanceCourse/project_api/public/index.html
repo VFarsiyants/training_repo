@@ -13,12 +13,16 @@
     <div id='app'>
         <header>
             <div class="cart-info">
-                <button v-on:click="onCartShow" class="cart-button" type="button">Cart</button>
-                <cart v-if="isCartVisible" :list="cart"></cart>
+                <button v-on:click="onCartShow" 
+                class="cart-button" 
+                type="button">Cart</button>
+                <cart v-if="isCartVisible" :list="cart" 
+                v-on:update:cart:remove="removeFromBasket($event)"></cart>
             </div>
         </header>
         <main>
-            <showcase :list="showcase"></showcase>
+            <showcase :list="showcase" 
+            v-on:update:cart:add="addToBasket($event)"></showcase>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
