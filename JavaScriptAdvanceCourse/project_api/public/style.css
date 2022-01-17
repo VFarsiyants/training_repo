@@ -59,6 +59,8 @@ main {
     border-right: 1px solid grey;
     padding-top: 5px;
     padding-left: 5px;
+    width: 200px;
+    text-align: center;
 }
 
 .cart-info {
@@ -68,15 +70,16 @@ main {
 }
 
 .cart-data {
-    padding-left: 5px;
     padding-top: 5px;
     border-right: 1px gray solid;
+    width: 200px;
+    text-align: center;
 }
 
 .cart {
     position: absolute;
     width: 700px;
-    display: none;
+    display: flex;
     flex-direction: column;
     right: 140px;
     top: 20px;
@@ -102,4 +105,13 @@ main {
 .remove-button {
     margin-bottom: 10px;
     padding: 0px 10px;
+}
+
+.cart_line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-headers {
+    display: flex;
 }
